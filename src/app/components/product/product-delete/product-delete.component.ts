@@ -1,38 +1,37 @@
-import { Component, OnInit } from '@angular/core';
-import { ProductService } from '../product.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Product } from '../product.model';
+import { Component, OnInit } from "@angular/core";
+import { ProductService } from "../product.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Product } from "../product.model";
 
 @Component({
-  selector: 'app-product-delete',
-  templateUrl: './product-delete.component.html',
-  styleUrls: ['./product-delete.component.css']
+  selector: "app-product-delete",
+  templateUrl: "./product-delete.component.html",
+  styleUrls: ["./product-delete.component.css"],
 })
 export class ProductDeleteComponent implements OnInit {
-
-  product: Product
+  product: Product;
 
   constructor(
     private productService: ProductService,
     private router: Router,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute
+  ) {}
 
-    ngOnInit(): void {
-      const id = this.route.snapshot.paramMap.get('id');
-      this.productService.readById(id).subscribe(product => {
-        this.product = product;
-      });
-    }
+  ngOnInit(): void {
+    const id = this.route.snapshot.paramMap.get("id");
+    this.productService.readById(id).subscribe((product) => {
+      this.product = product;
+    });
+  }
 
   deleteProduct(): void {
     this.productService.delete(this.product.id).subscribe(() => {
-      this.productService.showMessage('Produto deletado com sucesso!');
-      this.router.navigate(['/products'])
+      this.productService.showMessage(`Produto ${this.product.name} deletado.`);
+      this.router.navigate(["/products"]);
     });
   }
 
   cancel(): void {
-    this.router.navigate(['/products']);  
+    this.router.navigate(["/products"]);
   }
-
 }
